@@ -1,8 +1,20 @@
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+=======
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+>>>>>>> 93707be (msg)
 .Python
 build/
 develop-eggs/
@@ -15,13 +27,17 @@ lib64/
 parts/
 sdist/
 var/
+<<<<<<< HEAD
 wheels/
+=======
+>>>>>>> 93707be (msg)
 *.egg-info/
 .installed.cfg
 *.egg
 
 # Virtual environments
 venv/
+<<<<<<< HEAD
 env/
 ENV/
 .env
@@ -67,10 +83,30 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+=======
+ENV/
+env/
+.venv/
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+debug.log
+pip-log.txt
+pip-delete-this-directory.txt
+>>>>>>> 93707be (msg)
 
 # Unit test / coverage reports
 htmlcov/
 .tox/
+<<<<<<< HEAD
+=======
+.nox/
+>>>>>>> 93707be (msg)
 .coverage
 .coverage.*
 .cache
@@ -80,6 +116,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
+<<<<<<< HEAD
 # Sphinx documentation
 docs/_build/
 docs/api/
@@ -96,3 +133,62 @@ data/
 # Temporary files
 *.tmp
 *~
+=======
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Others
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.orig
+*.old
+
+# Local env
+.env
+.env.*
+
+# System files
+*.~lock.*
+
+# PennyLane lightning binaries
+*.cpp
+*.hpp
+*.cu
+*.cuh
+*.o
+*.obj
+*.pyd
+*.dll
+*.exp
+*.lib
+*.pdb
+*.mod
+>>>>>>> 93707be (msg)
