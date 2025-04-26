@@ -1,8 +1,10 @@
-# Quantum Error Correction Code Switching: Surface-13 to Surface-17
+# A Hello World Quantum Code Switcher: Surface-13 to Surface-17 (Example Repo)
 
 ## Abstract
 
 This repository implements a quantum error correction (QEC) code switcher between Surface-13 and Surface-17 codes using PennyLane. The code switcher enables the conversion of quantum states encoded in one error correction code to another while preserving the logical information. This capability is crucial for modular quantum computing architectures where different physical components may employ different error correction strategies. Our implementation demonstrates bidirectional conversion between Surface-13 (a [[9,1,3]] code with 4 stabilizers) and Surface-17 (a [[9,1,3]] code with 8 stabilizers), with comprehensive testing for various error models and logical states.
+
+> **Note:** This repository is intended as an example or "hello world" demonstration of quantum code switching between two surface codes. It is not a general-purpose library for the broader goal of a flexible, provider-agnostic quantum error correction code switching toolkit. If there is enough interest from the community, I would love to contribute to and manage such a comprehensive library in the future.
 
 ## 1. Introduction
 
