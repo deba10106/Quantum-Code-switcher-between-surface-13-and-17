@@ -1,8 +1,7 @@
 # A Hello World Quantum Code Switcher: Surface-13 to Surface-17 (Example Repo)
 
-<p align="center">
-  <img src="cv.png" alt="Author CV" width="220"/>
-</p>
+# About the author
+![cv](cv.png)
 
 ## Abstract
 
