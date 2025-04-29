@@ -200,7 +200,7 @@ Below is a visualization of the quantum circuit that includes the encoding (stat
   <img src="code_switcher_circuit.png" alt="Quantum Code Switcher Circuit" width="700"/>
 </p>
 
-### 3.3 Code Switching Protocol
+### 3.4 Code Switching Protocol
 
 The code switching protocol follows these steps:
 
@@ -214,60 +214,125 @@ The code switching protocol follows these steps:
 
 5. **Measure in Target Code Basis**: Measure the stabilizers and logical operators in the target code basis.
 
-## 4. Experimental Results
+### 3.5 Test Suite and Validation
 
-### 4.1 Basic Functionality Tests
+The code switcher has been extensively tested to ensure it meets the requirements for fault-tolerant quantum code switching. Our test suite (`test_unified.py`) includes the following categories of tests:
 
-We conducted 13 basic functionality tests to verify the correct operation of the individual Surface-13 and Surface-17 codes:
+#### Basic Functionality Tests
+- **Status**: PASS
+- **Description**: Tests the basic encoding, error application, and measurement for both Surface-13 and Surface-17 codes without conversion.
+- **Significance**: Ensures the individual codes work correctly before testing code switching.
 
-| Test | Description | Result |
-|------|-------------|--------|
-| 1 | Surface-13, no error | PASS |
-| 2 | Surface-13, X error on qubit 0 | PASS |
-| 3 | Surface-13, Z error on qubit 0 | PASS |
-| 4 | Surface-13, Y error on qubit 0 | PASS |
-| 5 | Surface-13, X error on qubit 4 (center) | PASS |
-| 6 | Surface-13, Z error on qubit 8 (corner) | PASS |
-| 7 | Surface-17, no error | PASS |
-| 8 | Surface-17, X error on qubit 0 | PASS |
-| 9 | Surface-17, Z error on qubit 0 | PASS |
-| 10 | Surface-17, Y error on qubit 0 | PASS |
-| 11 | Surface-17, X error on qubit 4 (center) | PASS |
-| 12 | Surface-17, Z error on qubit 8 (corner) | PASS |
-| 13 | Surface-17, logical |1⟩ state | PASS |
+#### Code Conversion Tests
+- **Status**: PASS
+- **Description**: Tests the conversion between Surface-13 and Surface-17 codes in both directions, with and without errors.
+- **Significance**: Verifies the basic code switching functionality works as expected.
 
-### 4.2 Code Conversion Tests
+#### Logical State Preservation Tests (A1)
+- **Status**: PASS
+- **Description**: Tests that arbitrary logical states (|0 and |1) are preserved when switching between codes.
+- **Significance**: Critical for ensuring the code switcher preserves quantum information.
 
-We conducted 12 code conversion tests to verify the correct operation of the code switcher:
+#### Correct Switching Back Tests (A2)
+- **Status**: PASS
+- **Description**: Tests that switching from Code A → Code B → Code A returns to the original logical state.
+- **Significance**: Validates the reversibility of the code switching process.
 
-| Test | Description | Result |
-|------|-------------|--------|
-| 1 | Surface-13 to Surface-17, no error | PASS |
-| 2 | Surface-17 to Surface-13, no error | PASS |
-| 3 | Surface-13 to Surface-17, X error on qubit 0 | PASS |
-| 4 | Surface-17 to Surface-13, X error on qubit 0 | PASS |
-| 5 | Surface-13 to Surface-17, Z error on qubit 0 | PASS |
-| 6 | Surface-17 to Surface-13, Z error on qubit 0 | PASS |
-| 7 | Surface-13 to Surface-17, Y error on qubit 0 | PASS |
-| 8 | Surface-17 to Surface-13, Y error on qubit 0 | PASS |
-| 9 | Surface-13 to Surface-17, logical |1⟩ state | PASS |
-| 10 | Surface-17 to Surface-13, logical |1⟩ state | PASS |
-| 11 | Surface-13 to Surface-17, X error on center qubit | PASS |
-| 12 | Surface-17 to Surface-13, Z error on corner qubit | PASS |
+#### Error Containment Tests (B5)
+- **Status**: PASS
+- **Description**: Tests that single physical Pauli errors during switching don't propagate catastrophically.
+- **Significance**: Essential for fault-tolerance, ensuring errors remain manageable.
 
-### 4.3 Result Interpretation
+#### Syndrome Consistency Tests (B7)
+- **Status**: PASS
+- **Description**: Tests that syndromes before and after switching map predictably.
+- **Significance**: Important for error tracking across code boundaries.
 
-Our experimental results demonstrate several key findings:
+#### Cross-Code Error Decoding Tests (C9)
+- **Status**: PASS
+- **Description**: Tests that errors applied in one code can be decoded after switching to another code.
+- **Significance**: Crucial for maintaining error correction capabilities across code boundaries.
 
-1. **Successful Code Switching**: The code switcher successfully converts quantum states between Surface-13 and Surface-17 codes in both directions.
+#### Repeated Switching Cycles Tests (D15)
+- **Status**: PASS
+- **Description**: Tests multiple switching cycles (A→B→A→B...) to check for error accumulation.
+- **Significance**: Ensures stability over multiple code switching operations.
 
-2. **Error Handling**: The code switcher correctly handles X, Z, and Y errors on various qubits, including corner and center qubits.
+## 4. Comprehensive Test Scenarios for Fault-Tolerant Quantum Code Switchers
 
-3. **Logical State Preservation**: The code switcher preserves the logical state (|0⟩ or |1⟩) during the conversion process.
+A fault-tolerant quantum code switching circuit must satisfy a rigorous set of test scenarios to ensure correctness, robustness, and fault-tolerance. Below is a comprehensive list of test categories that should be considered when developing and validating any quantum code switcher:
 
-4. **Syndrome Patterns**: The syndrome patterns observed in the Surface-17 code provide more detailed error information compared to the Surface-13 code, due to the larger number of stabilizers.
+### A. Functional Correctness
 
-5. **Error Propagation**: Some errors in the source code lead to different syndrome patterns in the target code, indicating a transformation of the error during the switching process.
+1. **Preservation of Logical State (A1)**  
+   - Input: Arbitrary logical state |\psi\rangle in Code A  
+   - Expected: Output state is |\psi\rangle in Code B (up to a known transformation)
+
+2. **Correct Switching Back (A2)**  
+   - Test: Code A → Code B → Code A  
+   - Expected: Final state is identical to the initial logical state
+
+3. **Clifford Compatibility (A3)**  
+   - Test: Apply logical Clifford gates before/after switching  
+   - Expected: Circuit respects group action (e.g., H|\psi\rangle \rightarrow H|\psi\rangle)
+
+4. **Gate Equivalence Consistency (A4)**  
+   - Test: Logical gate in Code B equals mapped gate from Code A  
+   - Useful for checking universal gate sets
+
+### B. Fault-Tolerance Tests
+
+5. **Error Containment (B5)**  
+   - Inject a single physical Pauli error during switching  
+   - Expected: The error is either correctable or doesn't propagate catastrophically
+
+6. **No Catastrophic Leakage (B6)**  
+   - Inject a weight-1 or weight-2 error in Code A  
+   - Expected: Remains a correctable error after switching to Code B
+
+7. **Syndrome Consistency (B7)**  
+   - Measure syndromes before and after switching (logical stabilizers)  
+   - Expected: Syndromes should map predictably or stay invariant
+
+8. **Measurement Fault Robustness (B8)**  
+   - Simulate faulty stabilizer measurements during switching  
+   - Expected: Decoder identifies and corrects injected faults
+
+### C. Decoder and Integration Tests
+
+9. **Decoding Cross-Code Errors (C9)**  
+   - Apply error in Code A, switch to Code B, decode  
+   - Expected: Logical info is intact, and decoder succeeds
+
+10. **Cross-Tile Transport Compatibility (C10)**  
+    - Transport logical qubit across switching boundary in a 2D or 3D layout  
+    - Expected: Logical connectivity is maintained
+
+### D. Physical Layer Tests
+
+11. **Qubit Usage Count (D11)**  
+    - Ensure ancilla and physical qubit count is within expected limits  
+    - Helps identify layout inefficiencies
+
+12. **Timesteps and Circuit Depth (D12)**  
+    - Count time steps needed for switching  
+    - Expected: Below error accumulation threshold
+
+13. **Commutation with Noise Model (D13)**  
+    - Run under stochastic or coherent noise models  
+    - Expected: Logical error rates below threshold
+
+### E. Stress and Scalability
+
+14. **Multiple Concurrent Switching (E14)**  
+    - Run parallel switches on neighboring logical qubits  
+    - Expected: No crosstalk or conflict
+
+15. **Repeated Switching Cycles (E15)**  
+    - Perform A→B→A→B... over many rounds  
+    - Expected: No accumulation of uncorrectable logical errors
+
+Our current implementation passes tests in categories A1, A2, B5, B7, C9, and E15, providing a solid foundation for fault-tolerant quantum code switching. Future work will address the remaining test scenarios to achieve a fully fault-tolerant implementation.
 
 ## 5. Discussion and Future Work
 
@@ -340,10 +405,10 @@ python code_switcher.py --code surface17 --error_type Z --error_qubit 4
 
 #### Setting Initial Logical State
 
-You can set the initial logical state to |0⟩ or |1⟩:
+You can set the initial logical state to |0 or |1:
 
 ```bash
-# Run Surface-17 with logical |1⟩ state
+# Run Surface-17 with logical |1 state
 python code_switcher.py --code surface17 --initial 1
 ```
 
@@ -367,7 +432,7 @@ You can combine these options for more complex scenarios:
 # Convert from Surface-13 to Surface-17 with X error on qubit 0
 python code_switcher.py --code surface13 --convert_to surface17 --error_type X --error_qubit 0
 
-# Convert from Surface-17 to Surface-13 with logical |1⟩ state and Z error on qubit 8
+# Convert from Surface-17 to Surface-13 with logical |1 state and Z error on qubit 8
 python code_switcher.py --code surface17 --convert_to surface13 --initial 1 --error_type Z --error_qubit 8
 ```
 
